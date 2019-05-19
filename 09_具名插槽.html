@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	
+</head>
+<body>
+	<div id="app"></div>
+	<script type="text/javascript" src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script type="text/javascript">
+
+
+		// bootstrap  下拉菜单  html+css+js
+		Vue.component('Vbtn',{
+			template:`
+				<button>
+					<slot name = "one"></slot>	
+					<slot name = "two"></slot>
+				</button>
+			`,
+			props:['type']
+		}); 
+
+		var Vheader  = {
+			template:`
+				<div>
+				<h2>具名插槽的渲染顺序，完全取决于模板，而不是取决于父组件中元素的顺序</h2>
+					<Vbtn>
+						<h3 slot = "two">dawfaegesgewage ewg e</h3>
+						<h3 slot = "one">klhgslg ewkaghew t e</h3>
+					</Vbtn>
+					
+				</div>
+			`
+		};
+
+
+		// 声明局部组件 App入口组件
+		var App  = {
+			template:`
+				<div>
+					<Vheader/>
+				</div>
+			`,
+			data(){
+				return {
+				
+				}
+			},
+			components:{
+				Vheader
+			}
+		};
+
+		new Vue({
+			el:'#app',
+			// 3.使用
+			template:'<App></App>',
+			data(){
+				return {
+
+				}
+			},
+			// 2.挂载组件
+			components:{
+				App
+			}
+		});
+
+	</script>
+
+	
+</body>
+</html>

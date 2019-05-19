@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	 <div id="app">
+	 	
+	 </div>
+	 <script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	 <script src="./lib/vue-router/node_modules/vue-router/dist/vue-router.js"></script>
+	<script>
+		// 让vue使用该VueRouter创建
+		Vue.use(VueRouter);
+
+		var subComponent = {
+			template:`
+				<div></div>
+			`
+		};
+
+		Vue.component('subCom',subComponent);
+
+		var App = {
+			data:function(){
+				return {
+
+				}
+			},
+			template:`
+				<div class = 'app'>
+					<button ref = 'btn1'>我是按钮</button>
+					<button ref = 'btn2'>我是另一个按钮</button>
+					<subCom ref = 'subc'>我还是按钮</subCom>	
+				</div>
+			`,
+			created:function(){
+				console.log(this.$refs.btn1);
+			},
+			beforeMount:function(){
+				console.log(this.$refs.btn2);
+			},
+			mounted:function(){
+				// 如果是给标签绑定的ref属性，那么使用this.$refs.xxx获取的是原生js的DOM对象
+				// 如果是给组将绑定的ref属性，那么使用this.$refs.xxx获取的是组件对象
+				// ref的属性值 不能重名，重名的后者会覆盖前者
+				console.log(this.$refs.subc);
+				console.log(this.$refs.btn1);
+				console.log(this.$refs.btn2);
+			},
+		};
+
+		new Vue({
+			el:'#app',
+			data:function(){
+				return {
+
+				}
+			},
+			template:`<App></App>`,
+			components:{
+				App
+			}
+		});
+
+	</script>
+</body>
+</html>

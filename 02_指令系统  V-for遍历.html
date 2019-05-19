@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>02 指令系统  V-for遍历</title>
+</head>
+
+<body>
+	<div>
+		遍历：v-for;<br>
+		<h2>遍历 </h2>
+	</div>
+	<div id="app">
+		<ul>
+			<p>遍历 以对象为元素的数组</p>
+			<li v-for='temp in menuLists'>
+				{{temp.id}} ： {{temp.name}} ： {{temp.price}}
+			</li>
+		</ul>
+		<br><br>
+		<ul>
+			<p>遍历 对象</p>
+			<li v-for='(value,key) in object'>
+				{{key}} --> {{value}}
+			</li>
+		</ul>
+	</div>
+	<script type="text/javascript" src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script type="text/javascript">
+		var app = new Vue({
+			el: '#app',
+			data: function () {
+				return {
+					menuLists: [
+						{
+							id: 1,
+							name: '锅包肉',
+							price: 19
+						},
+						{
+							id: 2,
+							name: '宫保鸡丁',
+							price: 22
+						},
+						{
+							id: 3,
+							name: '干煸豆角',
+							price: 25
+						}
+					],
+					object: {
+						id: 1,
+						name: 'laowang',
+						sex: 'male'
+					}
+				}
+			}
+		})
+	</script>
+</body>
+
+</html>

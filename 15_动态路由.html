@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>15-1动态路由</title>
+</head>
+<body>
+	<div id="app"></div>
+	<script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script src="./lib/vue-router/node_modules/vue-router/dist/vue-router.js"></script>
+	<script>
+		// 让vue使用该VueRouter创建
+		Vue.use(VueRouter);
+
+		var TimeMini = {
+			data:function(){
+				return {
+					msg:''
+				}
+			},
+			template:`
+				<div>
+					{{ msg }}
+				</div>
+			`,
+			// created(){
+			// 	this.msg = 'mon';
+			// },
+			watch:{
+				$route(to , from) {
+					// 对路由变化做出响应
+					console.log(to); // 可以获取跳转之后新的路由的信息
+					console.log(from);// 可以获取跳转之前的路由的信息
+
+					this.msg = to.params.id;
+				}
+			}
+		};
+
+		var Time = {
+			// 当两个组件的页面结构都一样，只是内容不同的话，那么用嵌套路由让组件创建和销毁显得并不高效，更加高效的方式使用动态路由，让页面根据id的不同，而显示不同的内容；
+			// 在这里假如星期一的界面和星期二的界面 都是一样的 只是内容不一样；那么要用动态路由；
+			// 这里使用的是动态路由，日历下面的子路由 都是加载的相同的组件 timeMini ，这就意味着他们都是同样的DOM结构，可以通过不同的id来渲染不同的内容
+			template:`
+				<div id="Time">
+					我是日历界面
+					<hr />
+					<router-link :to = "{name:'timeMini',params:{id:'mon'}}">星期一</router-link>
+					<router-link :to = "{name:'timeMini',params:{id:'tues'}}">星期二</router-link>
+
+					<router-view></router-view>
+				</div>
+			`
+		};
+
+		var Weather = {
+			template:`
+				<div>我是天气界面</div>
+			`
+		};
+
+		var router = new VueRouter({
+			routes:[{
+				path:'/time',
+				name:'Time',
+				component:Time,
+				children:[{
+					path:'/time/:id',
+					name:'timeMini',
+					component:TimeMini
+				}]
+			},
+			{
+				path:'/weather',
+				name:'Weather',
+				component:Weather
+			}]
+		});	
+
+
+
+
+		var App = {
+			template:`
+				<div>
+					<router-link :to = "{name:'Time'}">日历</router-link>
+					<router-link :to = "{name:'Weather'}">天气</router-link>
+
+					<router-view></router-view>
+				</div>
+			`
+		};
+
+
+
+		new Vue({
+			el:"#app",
+			router,
+			template:`<App />`,
+			components:{
+				App
+			}
+		});
+	</script>
+</body>
+</html>

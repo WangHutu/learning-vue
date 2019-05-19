@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>嵌套路由</title>
+</head>
+<body>
+
+	<div id="app"></div>
+	<script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script src="./lib/vue-router/node_modules/vue-router/dist/vue-router.js"></script>
+	<script>
+		// 让vue使用该VueRouter创建
+		Vue.use(VueRouter);
+
+		// 当子路由 DOM结构不一样的时候用嵌套路由，当子路由的组件DOM结构都一样，那么就使用动态路由
+		var Song = {
+			template:`
+				<div>我是首页的歌曲，歌曲歌曲；</div>
+			`
+		}
+
+
+		var Movie = {
+			template:`
+				<div>我是首页里的电影，电影电影；</div>
+			`
+		}
+
+
+		var Home = {
+			template:`
+				<div>
+					<div>这里是首页界面</div>
+					<hr />
+					<router-link :to = "{name:'Song'}">歌曲</router-link>
+					<router-link :to = "{name:'Movie'}">电影</router-link>
+
+					<router-view></router-view>
+				</div>
+
+			`
+		};
+
+
+		var Forum = {
+			template:`
+				<div>这里是论坛界面</div>
+			`
+		};
+
+
+		var router = new VueRouter({
+			routes:[{
+				// 路由重新定向；当访问‘/’的时候，直接访问 home 的组件
+				path:'/',
+				redirect:'/home'
+			},
+			{
+				path:'/home',
+				name:'Home',
+				component:Home,
+				children:[{
+					path:'song',
+					name:'Song',
+					component:Song
+				},
+				{	
+					path:'Movie',
+					name:'Movie',
+					component:Movie
+				}]
+			},
+			{
+				path:'/forum',
+				name:'Forum',
+				component:Forum
+
+			}]
+		});
+
+
+		var App = {
+			template:`
+				<div>
+					<router-link :to = "{name:'Home'}">首页</router-link>
+					<router-link :to = "{name:'Forum'}">论坛</router-link>
+
+					<router-view></router-view>
+				</div>
+ 			`
+		};
+
+
+		new Vue({
+			el:"#app",
+			data:function(){
+				return {
+
+				}
+			},
+			router:router,
+			template:`
+				<App />
+			`,
+			components:{
+				App
+			}
+		});
+	</script>
+</body>
+</html>

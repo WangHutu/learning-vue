@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>01 vue使用</title>
+</head>
+
+<body>
+	<div>
+		双向绑定：v-model;<br>
+		隐藏/显示：v-show;<br>
+		销毁/创建：v-if；<br>
+	</div>
+	<div class="app">
+		<div>
+			<input type="text" v-model='name'>
+			<span>你的名字是：{{name}} </span>
+		</div>
+		<div>
+			<input type="text" v-model='age'>
+			<span>你的年龄：{{age}} </span>
+		</div>
+		<div>
+			<input type="text" v-model='sex'>
+			<span v-show='sex'>你的性别：{{sex}} 
+			</span>dfagfaegf
+		</div>
+	</div>
+	<script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script>
+		var app = new Vue({
+			el: '.app',
+			template:``,     // template 模板组件化，当这个属性值不为空那么，不会寻找目的地
+			data: {
+				name: 'wangrunfeng',
+				age: 18,
+				sex: null
+			}
+		})
+	</script>
+</body>
+
+</html>

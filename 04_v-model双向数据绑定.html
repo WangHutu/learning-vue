@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>04 v-model双向数据绑定</title>
+</head>
+<body>
+    <h2>v-model只适用于有value属性的标签</h2>
+    <div id="app">
+    </div>
+    <script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+    <script>
+        var app = new Vue({
+            el:'#app',
+            template:`
+                <div>
+                    <h3>下面两行效果一样，v-model 就等于 v-bind 和 v-on:input 的效果</h3>
+                    <!--<input type="text" v-model = 'msg'/>-->
+                    <input type="text" v-bind:value = 'msg' v-on:input = 'change'/>
+                    <p>{{ msg }}</p>
+                </div>
+            `,
+            data:function(){
+                return {
+                    msg:'hello 双向绑定'
+                }
+            },
+            methods:{
+                change(e){
+                    this.msg = e.target.value;
+                }
+            }
+        })
+    </script>
+</body>
+</html>

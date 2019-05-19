@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>简易播放器</title>
+</head>
+<body>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        ul{
+            list-style:none;
+            background-color:honeydew;
+        }
+        ul li{
+            margin:20px;
+            padding:20px;
+            border-radius:5px;
+        }
+        ul .active{
+            background-color:cadetblue;
+        }
+        li:hover{
+            background-color:cadetblue;
+
+        }
+    </style>
+    <div id="app">
+        <audio :src="getCurrentSongSrc" autoplay controls></audio>
+        <ul>
+            <li v-for = '(item,index) in musicData' :class='{active:currentIndex == index}' @click = 'clickHandler(index)'>
+                <h2>{{item.id}} - 歌名： {{item.name}}</h2>
+                <p>歌手：{{item.author}}</p>
+            </li>
+        </ul>
+    </div>
+    <script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+    <script>
+        var musicData = [
+            {id:1,name:'少林英雄',author:'于荣光',songSrc:'./static/于荣光 - 少林英雄.mp3'},
+			{id:2,name:'Please Dont Go',author:'Joel Adams',songSrc:'./static/Joel Adams - Please Dont Go.mp3'},
+			{id:3,name:'Time',author:'MKJ',songSrc:'./static/MKJ - Time.mp3'},
+			{id:4,name:'Psycho (Pt. 2)',author:'Russ',songSrc:'./static/Russ - Psycho (Pt. 2).mp3'}
+        ];
+
+        new Vue({
+            el:'#app',
+            data:function(){
+                return {
+                    musicData:musicData,
+                    currentIndex:0
+                }
+            },
+            computed:{
+                getCurrentSongSrc:function(){
+                    return this.musicData[this.currentIndex].songSrc;
+                }
+            },
+            methods:{
+                clickHandler(index){
+                    this.currentIndex = index;
+                }
+            }
+        });
+
+    
+    
+    </script>
+</body>
+</html>

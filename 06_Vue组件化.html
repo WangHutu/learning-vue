@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="app">
+		<panel></panel>
+		<panel></panel>
+	</div>
+	<template id="panel-tpl">
+		<div class="panel">
+			<div class="title">Yo.</div>
+			<div class="content">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit. At quas maxime consequatur numquam voluptatem praesentium suscipit error iure quos. Eos necessitatibus accusantium quo tempore maiores provident aut ex distinctio iusto.
+			</div>
+			<div class="footer">更多信息</div>
+		</div>
+	</template>
+
+	<script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script>
+		Vue.component('panel',{
+			template:`#panel-tpl`
+		})
+
+		new Vue({
+			el:'#app',
+			data:{}
+		})
+	</script>
+</body>
+</html>

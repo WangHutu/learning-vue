@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>上传</title>
+</head>
+
+<body>
+<div id="app">
+
+</div>
+<script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+<script type="text/javascript" src="./lib/axios/node_modules/axios/dist/axios.js"></script>
+
+<script type="text/javascript">
+
+
+
+    var App = {
+        data(){
+            return {
+                file:{
+
+                },
+                rate:0
+            }
+        },
+        template: `
+                <div>
+                    文件进度：{{ rate }}%
+                    选择文件：
+                    <input type="file" name="file" @change = 'changeHandler'>
+                    <button @click="sendAjax">发送请求</button>
+
+                </div>
+            `,
+        methods:{
+            sendAjax(){
+                this.$axios.defaults.baseURL = 'http://127.0.0.1:8888/';
+
+                // FormData对象用以将数据编译成键值对，以便用XMLHttpRequest来发送数据
+                var fd = new FormData();
+
+                // 然后调用它的append()方法来添加字段
+                fd.append('file',this.file);
+
+                // 接下来通过 axios post方式 把文件 fd 发送给服务器‘upload’
+                this.$axios.post('upload',fd,{
+                    // ‘onUploadProgress’ 允许为上传处理进度事件
+                    onUploadProgress:progressEvent => {
+                        console.log(progressEvent);
+
+                        // ProgressEvent.loaded 表示底层进程已经执行的工作量
+                        // ProgressEvent.total 表示底层进程正在执行的工作总量
+                        // 所做的工作比率可以用属性和ProgressEvent.total计算
+                        var progress = (progressEvent.loaded/progressEvent.total)*100;
+
+                        this.$nextTick(function () {
+                            this.rate = Math.ceil(progress);
+                        })
+
+                    }
+                })
+
+            },
+            changeHandler(e) {
+                console.log(e.target.files[0]);
+                this.file = e.target.files[0];
+            }
+        }
+
+    };
+
+    // 为了做全局作用域
+    Vue.prototype.$axios = axios;
+
+    new Vue({
+        el: '#app',
+        template: `<App />`,
+        components: {
+            App
+        }
+    });
+</script>
+
+</body>
+
+</html>

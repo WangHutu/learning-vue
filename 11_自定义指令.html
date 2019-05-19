@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义组件</title>
+</head>
+<body>
+    <style>
+        *{
+            padding:0;
+            margin:0;
+        }
+        .card{
+            width:200px;
+            background:#ccc;
+            padding:10px;
+            margin:5px;
+        }
+    </style>
+    <div id="app">
+        <div v-pin.bottom.left="card1.pinned" class="card">Lorem ipsum dolor sit amet, consectetur adipisicing elit. 
+            <button @click="card1.pinned = !card1.pinned">钉住/取消</button>
+        </div>
+        <div v-pin="card2.pinned" class="card">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</div>
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Cupiditate dolore fuga quae nemo quod ipsam rem quas, officiis ipsa dignissimos, itaque molestias possimus distinctio vel ullam exercitationem provident odit temporibus!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti, excepturi vitae sequi necessitatibus asperiores aliquam recusandae explicabo temporibus assumenda tenetur a id, vel, minima possimus consequatur facere eveniet! Explicabo, accusantium!
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dicta numquam similique odio sint qui laborum. Recusandae quis ipsam tempora necessitatibus ad asperiores suscipit odio, saepe vel reprehenderit, perferendis quam ea.
+        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Cupiditate doloribus numquam consequuntur quo libero, eum quos, perspiciatis dolores, vero temporibus illo officia laboriosam quidem suscipit distinctio qui nemo explicabo sequi?
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic numquam debitis nisi praesentium, expedita cumque sit soluta sed quisquam vitae. Aut pariatur error eveniet veniam commodi, facere nihil quae! Voluptatem!
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque voluptatibus laborum nisi obcaecati id ex enim non dolore exercitationem quisquam harum voluptatum, numquam distinctio aliquid dignissimos sed adipisci ducimus consectetur.
+        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Laborum eos ut repellat iure vitae. Autem corrupti totam dolore nisi mollitia quod nobis excepturi dolores neque necessitatibus. Eaque molestias incidunt itaque?
+    </div>
+    <script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+    <script>
+        Vue.directive('pin',function(el,binding){
+            
+            var pinned = binding.value;
+            var position = binding.modifiers;  // 定位的属性
+            if(pinned) {
+                el.style.position = 'fixed';
+                for (var key in position) {
+                    if(position[key]) {
+                        el.style[key] = '10px';
+                    }
+                }
+                
+            }else {
+                el.style.position = 'static'
+            }
+        })
+
+        new Vue({
+            el:'#app',
+            data:function(){
+                return {
+                    card1:{
+                        pinned:false
+                    },
+                    card2:{
+                        pinned:false
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>全局组件-自定义属性</title>
+</head>
+<body>
+    <style>
+        .default {
+            display: inline-block;
+            line-height: 1;
+            white-space: nowrap;
+            cursor: pointer;
+            background: #fff;
+            border: 1px solid #dcdfe6;
+            border-color: #dcdfe6;
+            color: #606266;
+            -webkit-appearance: none;
+            text-align: center;
+            box-sizing: border-box;
+            outline: none;
+            margin: 0;
+            transition: .1s;
+            font-weight: 500;
+            -moz-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            padding: 12px 20px;
+            font-size: 14px;
+            border-radius: 4px;
+        }
+        .success {
+            color: #fff;
+            background-color: #67c23a;
+            border-color: #67c23a;
+        }
+    </style>
+    <div class="app"></div>
+
+    <script src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+    <script>
+
+
+        // 全局组件
+        // 先给全局组件绑定个默认的样式 default ；然后通过自定义属性type，传父组件中的属性值，来改变样式
+        Vue.component('Vbtn',{
+            template:`
+                <button class = default :class = 'type'>
+                    <slot></slot>    
+                </button>
+            `,
+            // 通过 props:[''] 的形式接收父组件中传过来的属性值；
+            // 静态props
+            props:['type']
+        });
+
+
+        // 子组件1
+        var contentOne = {
+            template:`
+                <div>
+                    我是第一个组件
+                    <Vbtn @click.native = 'add'>注册</Vbtn>    
+                </div>
+            `,
+            methods:{
+                add() {
+                    alert('我是注册！')
+                }
+            }
+        };
+
+        // 子组件2
+        // 通过自定义属性 type 传给子组件（这里是全局组件）属性值 success ；
+        // 另外组件绑定原生的事件  需要用 .native 函数；
+        var contentTwo = {
+            template:`
+                <div>
+                    我是第二个组件
+                    <Vbtn @click.native = 'add2' type = 'success'>登录</Vbtn>    
+                </div>
+            `,
+            methods:{
+                add2() {
+                    alert('我是登录！')
+                }
+            }
+        };
+
+
+        // 入口组件
+        var App = {
+            template:`
+                <div>
+                    <contentOne></contentOne>
+                    <contentTwo></contentTwo>    
+                </div>
+            `,
+            components:{
+                contentOne,
+                contentTwo
+            }
+        }
+
+        // 根组件
+        new Vue({
+            el:'.app',
+            template:`
+                <App></App>
+            `,
+            data() {
+                return {
+
+                }
+            },
+            // 挂载组件
+            components:{
+                App
+            }
+        })
+    </script>
+    
+</body>
+</html>
