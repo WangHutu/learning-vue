@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>子组件改变父组件传过来的值</title>
+</head>
+<body>
+	<div id="app">
+		<Vhead content="我是父组件传过来的数据"></Vhead>
+	</div>
+	<script type="text/javascript" src="./lib/vue/node_modules/vue/dist/vue.js"></script>
+	<script>
+		Vue.component('Vhead', {
+			template:`
+				<div>
+					<div> hello {{initdata}} </div>
+					<button @click = "change"> 点击该表父组件传过来的数据 </button>
+				</div>
+			`,
+			props:['content'],
+			// 由于父组件传过来的数据是单向的
+			// 并且，子组件拿到父组件的数据只能读并不能写，如果强行改变，会报错
+			data(){
+				return{
+					initdata:this.content
+				}
+			},
+			methods:{
+				change(){
+					this.initdata = "我是子组件改变之后的数据";
+					
+				}
+			}
+		});
+		
+
+		var app = new Vue({
+			el:"#app"
+		})
+	</script>
+</body>
+</html>
